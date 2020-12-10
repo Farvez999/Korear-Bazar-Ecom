@@ -1,6 +1,7 @@
 package com.frz.korearbazar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.frz.korearbazar.Interface.BestSeller;
 import com.frz.korearbazar.Interface.ProdInterface;
 import com.frz.korearbazar.activity.BlogActivity;
 import com.frz.korearbazar.activity.CartActivity;
@@ -79,7 +81,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements ProdInterface {
+public class MainActivity extends AppCompatActivity implements ProdInterface, BestSeller {
 
     SessionManager sessionManager;
 
@@ -336,6 +338,10 @@ public class MainActivity extends AppCompatActivity implements ProdInterface {
                 return false;
             }
         });
+
+//        SharedPreferences prefs = getSharedPreferences("KOREAR_BAZAR", MODE_PRIVATE);
+//        String dd=prefs.getString("name",null);
+//        Toast.makeText(this, ""+dd, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -1227,8 +1233,6 @@ public class MainActivity extends AppCompatActivity implements ProdInterface {
             ArrayList<BestSellerModel> bestmodelRecyclerArrayList = new ArrayList<>();
             JSONArray dataArray  = obj.getJSONArray("best_products");
 
-            //Toast.makeText(this, ""+dataArray, Toast.LENGTH_SHORT).show();
-
             for (int i = 0; i < dataArray.length(); i++) {
 
                 BestSellerModel bestModelRecycler = new BestSellerModel();
@@ -1246,6 +1250,7 @@ public class MainActivity extends AppCompatActivity implements ProdInterface {
             bestProdAdapter = new BestSellerAdapter(this,bestmodelRecyclerArrayList);
             bestProdRV.setAdapter(bestProdAdapter);
             bestProdRV.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+
 
 //            }else {
 //                Toast.makeText(TestRMain.this, obj.optString("message")+"", Toast.LENGTH_SHORT).show();
@@ -1368,7 +1373,6 @@ public class MainActivity extends AppCompatActivity implements ProdInterface {
             JSONArray jsonArray = object.getJSONArray("feature_products");
             JSONArray contacts = object.getJSONArray("sliders");
 
-            //Toast.makeText(this, ""+contacts, Toast.LENGTH_SHORT).show();
 
 
 
@@ -1381,10 +1385,6 @@ public class MainActivity extends AppCompatActivity implements ProdInterface {
                 prodModelRecycler.setPrice(jsonObject.getString("price"));
                 prodModelRecycler.setPrevious_price(jsonObject.getString("previous_price"));
                 prodModelRecycler.setSlug(jsonObject.getString("slug"));
-
-
-
-
 
                 prodmodelRecyclerArrayList.add(prodModelRecycler);
             }
@@ -1598,6 +1598,16 @@ public class MainActivity extends AppCompatActivity implements ProdInterface {
         }
     }
 
+    @Override
+    public void setBestSeller(BestSellerModel bestSellerModel){
+        if (bestSellerModel!=null){
+            Toast.makeText(this, ""+bestSellerModel.getSlug(), Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, ItemDetailsActivity.class);
+            i.putExtra("bestSellerModel",bestSellerModel);
+            startActivity(i);
+        }
+    }
+
 
 //    @Override
 //    protected void onStart() {
@@ -1614,4 +1624,5 @@ public class MainActivity extends AppCompatActivity implements ProdInterface {
 //
 //        }
 //    }
+
 }

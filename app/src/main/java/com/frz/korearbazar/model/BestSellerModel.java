@@ -1,6 +1,8 @@
 package com.frz.korearbazar.model;
 
-public class BestSellerModel {
+import java.io.Serializable;
+
+public class BestSellerModel implements Serializable {
     private String name, slug, thumbnail, price, previous_price, size, size_price, discount_date;
 
     public String getName() {

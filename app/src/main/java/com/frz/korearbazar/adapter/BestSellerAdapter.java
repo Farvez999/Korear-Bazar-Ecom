@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.frz.korearbazar.Interface.BestSeller;
+import com.frz.korearbazar.MainActivity;
 import com.frz.korearbazar.R;
 import com.frz.korearbazar.activity.ItemDetailsActivity;
 import com.frz.korearbazar.model.BestSellerModel;
@@ -28,13 +30,13 @@ public class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.My
     private LayoutInflater inflater;
     private ArrayList<BestSellerModel> bestModelArrayList;
     Context context;
+    BestSeller bestSeller;
     public BestSellerAdapter(Context ctx, ArrayList<BestSellerModel> dataModelArrayList){
         this.context=ctx;
         inflater = LayoutInflater.from(ctx);
         this.bestModelArrayList = dataModelArrayList;
-
+        this.bestSeller = bestSeller;
     }
-
 
 
     @Override
@@ -69,7 +71,7 @@ public class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.My
         TextView previous_price;
         TextView txt_desc;
         ImageView iv;
-        //TextView slug;
+        TextView slug;
 
 
 
@@ -82,23 +84,15 @@ public class BestSellerAdapter extends RecyclerView.Adapter<BestSellerAdapter.My
             iv = (ImageView) itemView.findViewById(R.id.pro_img);
 
             itemView.setOnClickListener(this);
-
-
-
         }
 
         @Override
         public void onClick(View view) {
 
-
             int postion = this.getPosition();
             BestSellerModel pm=bestModelArrayList.get(postion);
             Toast.makeText(context, "postion  "+pm.getName(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(context , ItemDetailsActivity.class);
-            intent.putExtra("name" , pm.getName());
-            intent.putExtra("price" ,pm.getPrice());
-
-            view.getContext().startActivity(intent);
+            bestSeller.setBestSeller(pm);
         }
     }
 

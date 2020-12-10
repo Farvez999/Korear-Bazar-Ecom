@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.frz.korearbazar.ApiInterface;
 import com.frz.korearbazar.model.SignInResponse;
 import com.frz.korearbazar.model.SignUpResponse;
 import com.frz.korearbazar.model.TokenResponse;
+import com.frz.korearbazar.model.User;
 import com.frz.korearbazar.utils.SessionManager;
 import com.google.gson.Gson;
 
@@ -36,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     Integer user_id;
     SessionManager sessionManager;
 
-
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //Toast.makeText(this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
     }
 
     private void logIn() {
@@ -93,6 +95,10 @@ public class LoginActivity extends AppCompatActivity {
                         user_id = signInResponse.getUserid();
                         sessionManager.saveUser(signInResponse.getUser());
                         Toast.makeText(LoginActivity.this, signInResponse.getMessage(), Toast.LENGTH_SHORT).show();
+//                        SharedPreferences.Editor editor = getSharedPreferences("USER_LOGIN", MODE_PRIVATE).edit();
+//                        editor.putString("email",user.getEmail());
+//                        editor.putString("name",user.getName());
+//                        editor.commit();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

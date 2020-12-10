@@ -5,14 +5,14 @@ public class User {
     int id;
     String name,photo,zip,city,country,address,phone,email,created_at,updated_at,is_provider,status,verification_link,email_verified, affilate_code,affilate_income,shop_name,owner_name,shop_number,shop_address,reg_number,shop_message,shop_details,shop_image,f_url,g_url,t_url,l_url,is_vendor,f_check,g_check,t_check,l_check,mail_sent,shipping_cost,current_balance,date,ban;
 
-    public User(int id, String name, String photo, String zip) {
+    public User(int id, String name, String photo, String zip, String address) {
         this.id = id;
         this.name = name;
         this.photo = photo;
         this.zip = zip;
         this.city = city;
         this.country = country;
-        this.address = address;
+        this.address = this.address;
         this.phone = phone;
         this.email = email;
         this.created_at = created_at;

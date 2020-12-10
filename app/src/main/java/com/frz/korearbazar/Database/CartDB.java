@@ -24,16 +24,24 @@ public class CartDB extends SQLiteOpenHelper {
 
     public CartDB(Context context){super(context,DATABASE_NAME,null,DB_VERSION);}
 
-    private static final String CREATE_TABLE =
-            "CREATE TABLE " + TABLE_NAME + " (" +
-                    ID + " INTEGER PRIMARY KEY," +
-                    TITLE + " TEXT," +
-                    IMAGE + " TEXT," +
-                    PRICE + " TEXT," +
-                    QUANTITY + " TEXT)";
-
+//    private static final String CREATE_TABLE =
+//            "CREATE TABLE " + TABLE_NAME + " (" +
+//                    ID + " INTEGER PRIMARY KEY," +
+//                    TITLE + " TEXT," +
+//                    IMAGE + " TEXT," +
+//                    PRICE + " TEXT," +
+//                    QUANTITY + " TEXT)";
+//
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+    private static final String CREATE_TABLE="CREATE TABLE "+TABLE_NAME+"("
+            + ID+ " INTEGER PRIMARY KEY, "
+            +TITLE+" TEXT, "
+            +IMAGE+" TEXT, "
+            +PRICE+" TEXT, "
+            +QUANTITY+" TEXT)";
+        //db.execSQL(CREATE_TABLE);
 
 
     //create a database table for my model class.this name is UserInfo ;
@@ -48,7 +56,7 @@ public class CartDB extends SQLiteOpenHelper {
     }
 
     //Add user Information
-    public void addInsert(CartModel prodModel){
+    public long addInsert(CartModel prodModel){
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
         ContentValues values= new ContentValues();
         //values.put( KEY_ID,userInfo.getUserId());
@@ -56,10 +64,13 @@ public class CartDB extends SQLiteOpenHelper {
         values.put( IMAGE,prodModel.getImage());
         values.put( PRICE,prodModel.getPrice());
         values.put( QUANTITY,prodModel.getQuantity());
-        sqLiteDatabase.insert( TABLE_NAME,null,values );
+        long insertData = sqLiteDatabase.insert( TABLE_NAME,null,values );
         sqLiteDatabase.close();
 
+        return insertData;
     }
+
+
     public List<CartModel> getAllData(){
         List<CartModel> userDataList=new ArrayList();
         String sql="Select * from "+ TABLE_NAME;

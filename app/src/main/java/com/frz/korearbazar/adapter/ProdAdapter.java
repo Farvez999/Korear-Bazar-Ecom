@@ -1,22 +1,17 @@
 package com.frz.korearbazar.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.frz.korearbazar.Interface.ProdInterface;
 import com.frz.korearbazar.R;
-import com.frz.korearbazar.activity.ItemDetailsActivity;
 import com.frz.korearbazar.model.ProdModel;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +28,7 @@ private ArrayList<ProdModel> dataModelArrayList;
 Context context;
 ProdInterface prodInterface;
 static String a_slag=null;
+
 public ProdAdapter(Context ctx, ArrayList<ProdModel> dataModelArrayList,ProdInterface prodInterface){
         this.context=ctx;
         inflater = LayoutInflater.from(ctx);
@@ -58,22 +54,6 @@ public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.name.setText(dataModelArrayList.get(position).getName());
         holder.price.setText(dataModelArrayList.get(position).getPrice());
         holder.previous_price.setText(dataModelArrayList.get(position).getPrevious_price());
-       //holder.txt_desc.setText(dataModelArrayList.get(position).getDetails());
-//        a_slag=dataModelArrayList.get(position).getSlug();
-//        holder.slug.setText(a_slag);
-//
-//        holder.slug.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                ProdModel pm=dataModelArrayList.get(position);
-////                Toast.makeText(context, "postion  "+pm.getName(), Toast.LENGTH_SHORT).show();
-////                Intent intent = new Intent(context , ItemDetailsActivity.class);
-////                intent.putExtra("name" , pm.getName());
-////                intent.putExtra("price" ,pm.getPrice());
-////                intent.putExtra("mySalg",pm.getSlug());
-////                view.getContext().startActivity(intent);
-//            }
-//        });
 
         }
 
@@ -88,7 +68,6 @@ class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListen
     TextView name;
     TextView price;
     TextView previous_price;
-    TextView txt_desc;
     ImageView iv;
 
    TextView slug;
@@ -111,17 +90,10 @@ class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-
-
         int postion = this.getPosition();
         ProdModel pm=dataModelArrayList.get(postion);
         Toast.makeText(context, "postion  "+pm.getName(), Toast.LENGTH_SHORT).show();
         prodInterface.setProd(pm);
-//        Intent intent = new Intent(context , ItemDetailsActivity.class);
-//        intent.putExtra("name" , pm.getName());
-//        intent.putExtra("price" ,pm.getPrice());
-//        intent.putExtra("mySalg",pm.getSlug());
-//        view.getContext().startActivity(intent);
     }
 }
 

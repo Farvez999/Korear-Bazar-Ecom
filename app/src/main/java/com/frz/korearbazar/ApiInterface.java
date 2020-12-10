@@ -23,6 +23,7 @@ public interface ApiInterface {
     String BlogImgUrl = "assets/images/blogs/";
     String PDetailsImgUrl = "assets/images/products/";
 
+
     @GET("api/setting")
     Call<String> getString();
 

@@ -28,6 +28,7 @@ public class SessionManager {
         mEditor.putString("name",user.getName());
         mEditor.putString("email",user.getEmail());
         mEditor.putString("phone",user.getPhone());
+        mEditor.putString("address",user.getAddress());
         mEditor.putBoolean("logged",true);
         mEditor.apply();
     }
@@ -42,7 +43,9 @@ public class SessionManager {
         return new User(mPrefs.getInt("id",-1),
                 mPrefs.getString("name",null),
                 mPrefs.getString("email",null),
-                mPrefs.getString("phone",null));
+                mPrefs.getString("phone",null),
+                mPrefs.getString("address",null));
+
     }
 
     public void logOut(){

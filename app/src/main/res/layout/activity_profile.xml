@@ -61,9 +61,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_editetext"
                     android:drawableLeft="@drawable/ic_email"
-                    android:drawablePadding="10dp"
                     android:textColorHint="@color/colorGrey"
-                    android:hint="Email"
+                    android:drawablePadding="10dp"
+                    android:hint="Name"
                     android:padding="12dp"
                     android:textColor="@color/colorGrey2" />
             </LinearLayout>
@@ -79,14 +79,13 @@
                     android:id="@+id/ed_alternatmob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_phone"
                     android:background="@drawable/rounded_editetext"
-                    android:hint="Mobile"
-                    android:inputType="phone"
+                    android:drawableLeft="@drawable/ic_phone"
+                    android:textColorHint="@color/colorGrey"
+                    android:drawablePadding="10dp"
+                    android:hint="Phone Number"
                     android:padding="12dp"
-                    android:textColor="@color/colorGrey2"
-                    android:textColorHint="@color/colorGrey" />
+                    android:textColor="@color/colorGrey2" />
             </LinearLayout>
 
 
@@ -95,48 +94,50 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
 
-                <EditText
-                    android:id="@+id/ed_password"
+
+                <TextView
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_editetext"
-                    android:drawableLeft="@drawable/ic_lock"
-                    android:drawablePadding="10dp"
-                    android:hint="Password"
+                    android:drawableLeft="@drawable/ic_address"
                     android:textColorHint="@color/colorGrey"
-                    android:inputType="textPassword"
+                    android:drawablePadding="10dp"
+                    android:hint="Address"
                     android:padding="12dp"
                     android:textColor="@color/colorGrey2" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="25dp" />
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="25dp" />-->
 
 
-            <TextView
-                android:id="@+id/txt_save"
-                android:layout_width="160dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="20dp"
-                android:elevation="10dp"
-                android:background="@drawable/rounded_green"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Save"
-                android:textColor="@color/colorWhite" />
+<!--            <TextView-->
+<!--                android:id="@+id/txt_save"-->
+<!--                android:layout_width="160dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:elevation="10dp"-->
+<!--                android:background="@drawable/rounded_green"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Save"-->
+<!--                android:textColor="@color/colorWhite" />-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="35dp" />
-        </LinearLayout>
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="35dp" />-->
+<!--        </LinearLayout>-->
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="25dp" />-->
+
+    </LinearLayout>
 
     </LinearLayout>
 

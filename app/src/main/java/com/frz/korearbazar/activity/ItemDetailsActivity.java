@@ -1,34 +1,27 @@
 package com.frz.korearbazar.activity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.frz.korearbazar.ApiInterface;
 import com.frz.korearbazar.Database.CartDB;
-import com.frz.korearbazar.Database.OrderContract;
 import com.frz.korearbazar.MainActivity;
 import com.frz.korearbazar.R;
 import com.frz.korearbazar.adapter.ProdDetailsAdapter;
+import com.frz.korearbazar.model.BestSellerModel;
 import com.frz.korearbazar.model.CartModel;
 import com.frz.korearbazar.model.ProdDetailsModel;
 import com.frz.korearbazar.model.ProdModel;
 import com.frz.korearbazar.model.SlidersModel;
-import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -51,6 +44,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
    LinearLayout linearLayout;
 
    ProdModel prodModel;
+   BestSellerModel bestSellerModel;
    CartDB cartDB;
    String imgUrl = "";
 
@@ -63,15 +57,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
     TextView btnAddtocart,buyNow,continue_shopping;
     //String Uri="http://ecom.hrventure.xyz/carts";
 
-    Spinner spinner;
-
     TextView txtPrice;
     TextView txtItemOffer;
     TextView txtSeler;
-    ImageButton plusquantity, minusquantity;
+    ImageView plusquantity, minusquantity;
+    int quantity = 1;
     TextView quantitynumber;
-    public Uri mCurrentCartUri;
-    boolean hasAllRequiredValues = false;
     String slug;
 
     //Slider
@@ -92,12 +83,51 @@ public class ItemDetailsActivity extends AppCompatActivity {
         lvlCart = findViewById(R.id.lvl_cart);
         txtTitle = findViewById(R.id.txt_title);
         txtDesc = findViewById(R.id.txt_desc);
+        txtPrice = findViewById(R.id.txt_price);
         btnAddtocart = findViewById(R.id.addToCart);
         buyNow = findViewById(R.id.buyNow);
         continue_shopping = findViewById(R.id.continue_shopping);
         plusquantity = findViewById(R.id.addquantity);
         minusquantity  = findViewById(R.id.subquantity);
         quantitynumber = findViewById(R.id.quantity);
+
+
+        plusquantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                prodModel.getPrice();
+                Toast.makeText(ItemDetailsActivity.this, ""+prodModel.getPrice(), Toast.LENGTH_SHORT).show();
+
+                double basePrice = Double.parseDouble((prodModel.getPrice()));
+                quantity++;
+                displayQuantity();
+                double productPrice = basePrice * quantity;
+                String setnewPrice = String.valueOf(productPrice);
+                txtPrice.setText(setnewPrice);
+
+                Log.e("new price",setnewPrice);
+                Toast.makeText(ItemDetailsActivity.this, ""+setnewPrice, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        minusquantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                double basePrice = Double.parseDouble((prodModel.getPrice()));
+                // because we dont want the quantity go less than 0
+                if (quantity == 1) {
+                    Toast.makeText(ItemDetailsActivity.this, "Cant Cart quantity < 1", Toast.LENGTH_SHORT).show();
+                } else {
+                    quantity--;
+                    displayQuantity();
+                    double productPrice = basePrice * quantity;
+                    String setnewPrice = String.valueOf(productPrice);
+                    txtPrice.setText(setnewPrice);
+                }
+            }
+        });
 
         continue_shopping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +155,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         btnAddtocart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ItemDetailsActivity.this, CartActivity.class));
+                //startActivity(new Intent(ItemDetailsActivity.this, CartActivity.class));
 
                 SaveCart();
             }
@@ -143,17 +173,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
         Bundle intent = getIntent().getExtras();
         if (intent!=null){
             prodModel = (ProdModel) intent.getSerializable("prodctModel");
+            //bestSellerModel = (BestSellerModel) intent.getSerializable("bestSellerModel");
             Toast.makeText(this, ""+ prodModel.getSlug(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, ""+ bestSellerModel.getSlug(), Toast.LENGTH_SHORT).show();
         }
-
-//        slug = intent.getStringExtra("mySalg");
-//        Toast.makeText(this, ""+ slug, Toast.LENGTH_SHORT).show();
-
-        //txtTitle.setText(slug);
-        //txtPrice.setText(intent.getStringExtra("price"));
-
-
-        //Toast.makeText(this, ""+slug, Toast.LENGTH_SHORT).show();
 
         //Slider
         imgDtails =findViewById(R.id.imgDtails);
@@ -165,55 +188,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
 //
         ProdDetailsfetchJSON();
 
-//
-//        sessionManager = new SessionManager(this);
-//        databaseHelper = new DatabaseHelper(ItemDetailsActivity.this);
-//        productItem = (ProductItem) getIntent().getParcelableExtra("MyClass");
-//        priceslist = getIntent().getParcelableArrayListExtra("MyList");
-//        if (ProdDetailsModel != null) {
-//            txtTitle.setText("" + ProdDetailsModel.getProductName());
-//            txtDesc.setText("" + ProdDetailsModel.getShortDesc());
-//            txtSeler.setText("" + ProdDetailsModel.getSellerName());
-//            List<String> Arealist = new ArrayList<>();
-//            for (int i = 0; i < priceslist.size(); i++) {
-//                Arealist.add(priceslist.get(i).getProductType());
-//            }
-//            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, Arealist);
-//            spinner.setAdapter(dataAdapter);
-//            updateItem();
-//        }
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                if (productItem.getmDiscount() > 0) {
-//                    double res = (Double.parseDouble(priceslist.get(position).getProductPrice()) / 100.0f) * productItem.getmDiscount();
-//                    res = Double.parseDouble(priceslist.get(position).getProductPrice()) - res;
-//                    txtItemOffer.setText(sessionManager.getStringData(currncy) + priceslist.get(position).getProductPrice());
-//                    txtItemOffer.setPaintFlags(txtItemOffer.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//                    txtPrice.setText(sessionManager.getStringData(currncy) + res);
-//                    txtItemOffer.setText(sessionManager.getStringData(currncy) + priceslist.get(position).getProductPrice());
-//                } else {
-//                    txtItemOffer.setVisibility(View.GONE);
-//                    txtPrice.setText(sessionManager.getStringData(currncy) + priceslist.get(position).getProductPrice());
-//                }
-//                setJoinPlayrList(lvlPricelist, productItem, priceslist.get(position));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//        List<String> myList = new ArrayList<>();
-//        myList.add(productItem.getProductImage());
-//        if (productItem.getProductRelatedImage() != null && productItem.getProductRelatedImage().length() != 0) {
-//            myList.addAll(Arrays.asList(productItem.getProductRelatedImage().split(",")));
-//            tabview.setupWithViewPager(viewPager, true);
-//        }
-//        MyCustomPagerAdapter myCustomPagerAdapter = new MyCustomPagerAdapter(this, myList);
-//        viewPager.setAdapter(myCustomPagerAdapter);
+    }
+
+    private void displayQuantity() {
+        quantitynumber.setText(String.valueOf(quantity));
     }
 
     private void SaveCart() {
@@ -224,7 +202,14 @@ public class ItemDetailsActivity extends AppCompatActivity {
         String quantity = quantitynumber.getText().toString();
 
         CartModel cartModel = new CartModel(name,price,quantity,imgUrl);
-        cartDB.addInsert(cartModel);
+        long insertData=   cartDB.addInsert(cartModel);
+        if (insertData>0){
+            Toast t = Toast.makeText( getApplicationContext(), "Successfully Added to Cart!" + insertData, Toast.LENGTH_LONG );
+            t.show();
+        }else {
+            Toast t = Toast.makeText( getApplicationContext(), "Successfully not Added to Cart!", Toast.LENGTH_LONG );
+            t.show();
+        }
 
     }
 
@@ -270,7 +255,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
                 JSONArray jsonArray = object.getJSONArray("products");
 
-                Toast.makeText(this, "Done" + jsonArray, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Done" + jsonArray, Toast.LENGTH_SHORT).show();
 
                 for (int i = 0; i < jsonArray.length(); i++) {
 
